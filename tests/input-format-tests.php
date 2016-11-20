@@ -1,5 +1,5 @@
 <?php 
-require 'asserts.php';
+require_once 'asserts.php';
 require '../includes/input-format.inc';
 
 // tests for test_input method
@@ -179,6 +179,7 @@ function add_scheme_hasnoscheme_returns_httpsuponrequest() {
   assert_strings_are_equal(__FUNCTION__, $expected, $result);
 }
 
+echo "<b>input-format.inc</b>";
 test_input_leading_and_trailing_whitespace_returns_no_whitespace();
 test_input_backslashes_returns_no_backslashes();
 test_input_specialcharacters_returns_escaped_string();

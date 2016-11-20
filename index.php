@@ -1,5 +1,6 @@
 <?php 
 require 'includes/input-format.inc';
+require 'includes/url-list.inc';
 
 //define variables
 $url = $urlError = "";
@@ -12,6 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     // check if URL address syntax is valid (this regular expression also allows dashes in the URL)
     if (!is_valid_url($url)) {
       $urlError = "Invalid URL"; 
+    } else {
+      url_list_add_url($url);
     }
   }
 }
