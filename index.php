@@ -1,5 +1,6 @@
-<?php require 'includes/input-format.inc' ?>
 <?php 
+require 'includes/input-format.inc';
+
 //define variables
 $url = $urlError = "";
 
