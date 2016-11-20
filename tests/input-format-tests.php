@@ -5,7 +5,7 @@ require '../includes/input-format.inc';
 // tests for test_input method
 function test_input_leading_and_trailing_whitespace_returns_no_whitespace() {
   // Arrange
-  $expected = "expected";
+  $expected = "http://www.expected.com";
   $in = " \n" . $expected . "\t\r";
 
   // Action
@@ -17,8 +17,8 @@ function test_input_leading_and_trailing_whitespace_returns_no_whitespace() {
 
 function test_input_backslashes_returns_no_backslashes() {
   // Arrange
-  $expected = "backslash";
-  $in = "back\\slash";
+  $expected = "http://backslash.com";
+  $in = "http://back\\slash.com";
 
   // Action
   $result = test_input($in);
@@ -29,8 +29,8 @@ function test_input_backslashes_returns_no_backslashes() {
 
 function test_input_specialcharacters_returns_escaped_string() {
   // Arrange
-  $expected = "hello&amp;there";
-  $in = "hello&there";
+  $expected = "http://hello&amp;there.com";
+  $in = "http://hello&there.com";
 
   // Action
   $result = test_input($in);
@@ -41,8 +41,8 @@ function test_input_specialcharacters_returns_escaped_string() {
 
 function test_input_one_of_each_returns_all_removed() {
   // Arrange
-  $expected = "&lt;Hello World&gt;";
-  $in = " <Hello \\World>\n";
+  $expected = "http://&lt;Hello World&gt;";
+  $in = " http://<Hello \\World>\n";
 
   // Action 
   $result = test_input($in);
@@ -129,10 +129,62 @@ function is_valid_url_poorlyformatedcomplexurl_returns_false() {
   assert_bool_is_false(__FUNCTION__, $result);
 }
 
+// tests for add scheme
+
+function add_scheme_hashttp_returns_unchangedstring() {
+  // Arrange
+  $expected = "http://www.google.com";
+  $in = $expected;
+
+  // Action
+  $result = add_scheme($in);
+
+  // Assert
+  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+}
+
+function add_scheme_hashttps_returns_unchangedstring() {
+  // Arrange
+  $expected = "https://www.google.com";
+  $in = $expected;
+
+  // Action
+  $result = add_scheme($in);
+
+  // Assert
+  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+}
+
+function add_scheme_hasnoscheme_returns_defaultstohttp() {
+  // Arrange
+  $in = "www.google.com";
+  $expected = "http://" . $in;
+
+  // Action
+  $result = add_scheme($in);
+
+  // Assert
+  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+}
+
+function add_scheme_hasnoscheme_returns_httpsuponrequest() {
+  // Arrange
+  $in = "www.google.com";
+  $expected = "https://" . $in;
+
+  // Action
+  $result = add_scheme($in, "https://");
+
+  // Assert
+  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+}
+
 test_input_leading_and_trailing_whitespace_returns_no_whitespace();
 test_input_backslashes_returns_no_backslashes();
 test_input_specialcharacters_returns_escaped_string();
 test_input_one_of_each_returns_all_removed();
+
+echo "<br \>";
 
 is_valid_url_simplewithhttp_returns_true();
 is_valid_url_simplewithhttps_returns_true();
@@ -141,4 +193,12 @@ is_valid_url_simplewithonlydomainanddotcom_returns_false();
 is_valid_url_complexstring_returns_true();
 is_valid_url_poorlyformatedsimpleurl_returns_false();
 is_valid_url_poorlyformatedcomplexurl_returns_false();
+
+echo "<br \>";
+
+add_scheme_hashttp_returns_unchangedstring();
+add_scheme_hashttps_returns_unchangedstring();
+add_scheme_hasnoscheme_returns_defaultstohttp();
+add_scheme_hasnoscheme_returns_httpsuponrequest();
+
 ?>
