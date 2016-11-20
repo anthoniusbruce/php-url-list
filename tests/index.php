@@ -1,7 +1,9 @@
 <html>
 <body>
-Hello
-<?php require '../includes/test.inc'; ?>
+Tests<br />
+<?php 
+require 'input-format-tests.php';
+?>
 </body>
 </html>
 
