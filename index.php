@@ -1,4 +1,5 @@
-<?php
+<?php require 'includes/input-format.inc' ?>
+<?php 
 //define variables
 $url = $urlError = "";
 
@@ -8,24 +9,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
   } else {
     $url = test_input($_POST["url"]);
     // check if URL address syntax is valid (this regular expression also allows dashes in the URL)
-    if (!preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$url)) {
+    if (!is_valid_url($url)) {
       $urlError = "Invalid URL"; 
     }
   }
-}
-
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
 }
 ?>
 
 <html>
 <body>
 
-<form method="post"  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+<form method="post"  action="<?php echo $_SERVER["PHP_SELF"];?>">
 URL: 
 <input type="text" name="url" value="<?php echo $url;?>">
 <span class="error"><?php echo $urlError;?></span>
