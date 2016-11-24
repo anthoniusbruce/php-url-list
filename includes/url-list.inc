@@ -8,9 +8,14 @@ function url_list_add_url($url, $file) {
 }
 
 function get_url_list($file) {
+  if (!file_exists($file)) {
+    return null;
+  }
+  
   $list = array();
+
   $list_file = fopen($file, "r") or die("unable to read: " . $file . " error: " . print_r(error_get_last(), true));
-  while (($buffer = fgets($file)) !== false) {
+  while (($buffer = fgets($list_file)) !== false) {
     array_push($list, $buffer);
   }
   

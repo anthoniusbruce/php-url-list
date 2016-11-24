@@ -6,11 +6,21 @@ function get_test_file_name() {
   return "/var/www/test_files/url_list_tests";
 }
 
+function remove_file($file) {
+  if (!file_exists($file)) {
+    return;
+  }
+
+  if (!unlink($file)) {
+    echo("unable to delete"  . $file . " error: " . print_r(error_get_last(), true));
+  }
+}
+
 function create_test_file($base_data, $count) {
   $file = get_test_file_name();
-  unlink($file);
+  remove_file($file);
 
-  for ($i = 0; $i < $count; ++$i) {
+  for ($i = 0; $i < $count; $i++) {
     url_list_add_url($base_data . $i, $file);
   }
 
@@ -20,7 +30,7 @@ function create_test_file($base_data, $count) {
 function get_url_list_noFile_returnsEmptyList() {
   // Arrange
   $file = get_test_file_name();
-  unlink($file);
+  remove_file($file);
 
   // Action
   $result = get_url_list($file);
@@ -38,7 +48,7 @@ function get_url_list_returnsListOfOne() {
   $result = get_url_list($file);
 
   // Assert
-  assert_arrays_are_equal(__FUNCTION__, $expected, $result, true);
+  assert_arrays_are_equal(__FUNCTION__, $expected, $result);
 }
 
 function get_url_list_returnsMany() { 
@@ -50,13 +60,13 @@ function url_list_add_url_addtoanemptylist_returnstheoneitem() {
   $expected = array($in);
   //   create file to test with
   $file = get_test_file_name();
-  unlink(Sfile);
+  remove_file($file);
 
   // Action
   $result = url_list_add_url($in, $file);
 
   // Assert
-  assert_arrays_are_equal(__FUNCTION__, $expected, $result, true);
+  assert_arrays_are_equal(__FUNCTION__, $expected, $result);
 }
 
 echo "<br><br><b>url-list.inc</b>";
