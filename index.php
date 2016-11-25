@@ -4,6 +4,7 @@ require 'includes/url-list.inc';
 
 //define variables
 $url = $urlError = "";
+$file = "/var/www/kiosk/sites";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
   if (empty($_POST["url"])) {
@@ -14,7 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if (!is_valid_url($url)) {
       $urlError = "Invalid URL"; 
     } else {
-      url_list_add_url($url);
+      url_list_add_url($url, $file);
+      $url = "";
     }
   }
 }
@@ -22,7 +24,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <html>
 <body>
-
+<?php
+  $file_list = get_url_list($file);
+  $list_count = count($file_list);
+  for ($i = 0; $i < $list_count; ++$i) {
+    echo $file_list[$i] . "<br>";
+  } 
+?>
+<br>
 <form method="post"  action="<?php echo $_SERVER["PHP_SELF"];?>">
 URL: 
 <input type="text" name="url" value="<?php echo $url;?>">
@@ -30,6 +39,6 @@ URL:
 <br><br>
 <input type="submit" name="submit" value="Submit"> 
 </form>
-
+<?php //echo shell_exec('killall chromium-browser'); ?> 
 </body>
 </html>
