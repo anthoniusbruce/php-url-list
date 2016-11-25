@@ -4,7 +4,7 @@ require '../includes/url-list.inc';
 
 // define variables
 $file = "/var/www/kiosk/sites";
-$urlError = "";
+$url = $urlError = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (!empty($_POST["url"])) {
@@ -21,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <form id="goBack" action="../index.php" <?php if ($urlError != "") echo("method = 'post'"); ?> >
   <input type="hidden" name="urlError" <?php echo("value='" . $urlError . "'"); ?> >
+  <input type="hidden" name="url" <?php echo("value='" . $url . "'"); ?> >
 </form>
 <script type="text/javascript">
   document.getElementById('goBack').submit();

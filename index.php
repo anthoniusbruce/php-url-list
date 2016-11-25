@@ -1,4 +1,5 @@
 <?php 
+/*
 require 'includes/input-format.inc';
 require 'includes/url-list.inc';
 
@@ -20,19 +21,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     }
   }
 }
+*/
 ?>
 
 <html>
 <body>
 <?php
-  $file_list = get_url_list($file);
-  $list_count = count($file_list);
-  for ($i = 0; $i < $list_count; ++$i) {
-    echo $file_list[$i] . "<br>";
-  } 
+require 'includes/url-list.inc';
+
+$file = "/var/www/kiosk/sites";
+$file_list = get_url_list($file);
+$list_count = count($file_list);
+for ($i = 0; $i < $list_count; ++$i) {
+  echo $file_list[$i] . "<br>";
+}
+
+$urlError = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") { 
+  if (!empty($_POST["urlError"])) {
+    $urlError = $_POST["urlError"];
+    $url = $_POST["url"];
+  }
+}
 ?>
 <br>
-<form method="post"  action="<?php echo $_SERVER["PHP_SELF"];?>">
+<form method="post"  action="pages/url-list.php">
 URL: 
 <input type="text" name="url" value="<?php echo $url;?>">
 <span class="error"><?php echo $urlError;?></span>
