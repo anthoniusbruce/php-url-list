@@ -3,7 +3,7 @@ require '../includes/input-format.inc';
 require '../includes/url-list.inc';
 
 // define variables
-$file = "/var/www/kiosk/sites";
+$file = $_SERVER["DOCUMENT_ROOT"] . "/kiosk/sites";
 $url = $urlError = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

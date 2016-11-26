@@ -3,7 +3,7 @@ require_once 'asserts.php';
 require '../includes/url-list.inc';
 
 function get_test_file_name() {
-  return "/var/www/test_files/url_list_tests";
+  return $_SERVER["DOCUMENT_ROOT"] . "/test_files/url_list_tests";
 }
 
 function remove_file($file) {

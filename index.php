@@ -5,7 +5,7 @@ require 'includes/url-list.inc';
 
 //define variables
 $url = $urlError = "";
-$file = "/var/www/kiosk/sites";
+$file = $_SERVER["DOCUMENT_ROOT"] . "/kiosk/sites";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
   if (empty($_POST["url"])) {
@@ -29,7 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 <?php
 require 'includes/url-list.inc';
 
-$file = "/var/www/kiosk/sites";
 $file_list = get_url_list($file);
 $list_count = count($file_list);
 for ($i = 0; $i < $list_count; ++$i) {
