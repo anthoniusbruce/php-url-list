@@ -23,10 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <form id="goBack" action="../index.php" <?php if ($urlError != "") echo("method = 'post'"); ?> >
   <input type="hidden" name="urlError" <?php echo("value='" . $urlError . "'"); ?> >
   <input type="hidden" name="url" <?php echo("value='" . $url . "'"); ?> >
-  <input type="submit" name="submit" value="submit" >
+<!--  <input type="submit" name="submit" value="submit" >i -->
 </form>
 <script type="text/javascript">
-//  document.getElementById('goBack').submit();
+  document.getElementById('goBack').submit();
 </script>
 </body>
 </html>
