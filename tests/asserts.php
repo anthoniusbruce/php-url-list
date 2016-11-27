@@ -41,7 +41,7 @@ function assert_arrays_are_equal($description, $expected, $actual, $debug = fals
   if (!is_array($expected) || !is_array($actual)) {
     $test_result = $test_result . " they are not both arrays"; 
   } elseif (count($expected) != count($actual)) {
-    $test_result = $test_result . "count is different";
+    $test_result = $test_result . " count is different";
   } elseif (array_diff($expected, $actual) === array_diff($actual, $expected)) {
     $test_result = $test_result . " array_diff failed";
   } else {
