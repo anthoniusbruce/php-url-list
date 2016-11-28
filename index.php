@@ -6,9 +6,6 @@ require 'includes/url-list.inc';
 $file = $_SERVER["DOCUMENT_ROOT"] . "/kiosk/sites";
 $file_list = get_url_list($file);
 $list_count = count($file_list);
-for ($i = 0; $i < $list_count; ++$i) {
-  echo $file_list[$i] . "<br>";
-}
 
 $url = $urlError = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") { 
@@ -18,6 +15,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 ?>
+
+<?php if ($list_count > 0): ?>
+<table>
+  <tbody>
+<?php foreach ($file_list as $item): ?>
+    <tr>
+      <td><?php echo $item; ?></td>
+    </tr>
+<?php endforeach; ?>
+  </tbody>
+</table>
+<?php endif; ?>
 <br>
 <form method="post"  action="pages/url-list.php">
 URL: 
