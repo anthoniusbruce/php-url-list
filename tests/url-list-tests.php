@@ -133,8 +133,61 @@ function url_list_add_url_addurlthatisalreadyinlist_listshouldnotchange() {
   $in = "http://www.google.com/0";
   $file = create_test_file("http://www.google.com/", 3);
   $expected = array("http://www.google.com/0", "http://www.google.com/1", "http://www.google.com/2");
+
   // Action
   $result = url_list_add_url($in, $file);
+
+  // Assert
+  assert_arrays_are_equal(__FUNCTION__, $expected, $result);
+}
+
+function url_list_delete_url_deleteurlnotinlist_liststaysthesame() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $in = "http://www.google.com";
+  $expected = array("http://www.google.com/0", "http://www.google.com/1", "http://www.google.com/2");
+
+  // Action
+  $result = url_list_delete_url($in, $file);
+
+  // Assert
+  assert_arrays_are_equal(__FUNCTION__, $expected, $result);
+}
+
+function url_list_delete_url_deletefirsturlsnlist_listreduces() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $in = "http://www.google.com/0";
+  $expected = array("http://www.google.com/1", "http://www.google.com/2");
+
+  // Action
+  $result = url_list_delete_url($in, $file);
+
+  // Assert
+  assert_arrays_are_equal(__FUNCTION__, $expected, $result);
+}
+
+function url_list_delete_url_deletelasturlinlist_listreduces() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $in = "http://www.google.com/2";
+  $expected = array("http://www.google.com/0", "http://www.google.com/1");
+
+  // Action
+  $result = url_list_delete_url($in, $file);
+
+  // Assert
+  assert_arrays_are_equal(__FUNCTION__, $expected, $result);
+}
+
+function url_list_delete_url_deletemiddleurlinlist_listreduces() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $in = "http://www.google.com/1";
+  $expected = array("http://www.google.com/0", "http://www.google.com/2");
+
+  // Action
+  $result = url_list_delete_url($in, $file);
 
   // Assert
   assert_arrays_are_equal(__FUNCTION__, $expected, $result);
@@ -153,4 +206,9 @@ echo "<br>";
 url_list_add_url_addtoanemptylist_returnstheoneitem();
 url_list_add_url_addtoexistinglist_returnslistwithnewitematend();
 url_list_add_url_addurlthatisalreadyinlist_listshouldnotchange();
+echo "<br>";
+url_list_delete_url_deleteurlnotinlist_liststaysthesame();
+url_list_delete_url_deletefirsturlsnlist_listreduces();
+url_list_delete_url_deletelasturlinlist_listreduces();
+url_list_delete_url_deletemiddleurlinlist_listreduces();
 ?>

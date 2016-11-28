@@ -39,8 +39,33 @@ function get_url_list($file) {
   while (($buffer = fgets($list_file)) !== false) {
     array_push($list, $buffer);
   }
+  fclose($list_file);
   
   return $list;
 }
 
+function url_list_delete_url($url, $file) {
+  if (find_url_in_list($url, $file)) {
+    $list = array();
+    $list_file = fopen($file, "r") or die("unable to read: " . $file . " error: " . print_r(error_get_last(), true));
+    while (($buffer = fgets($list_file)) !== false) {
+      $buffer = trim($buffer);
+      if (strcmp($buffer, $url) == 0) {
+        $url = "";
+      } else {
+        array_push($list, $buffer);
+      }
+    }
+    fclose($list_file);
+
+    $list_file = fopen($file, "w") or die("unable to read: " . $file . " error: " . print_r(error_get_last(), true));
+    $list_count = count($list);
+    for ($i = 0; $i < $list_count; ++$i) {
+      fwrite($list_file, $list[$i] . "\n");
+    }
+    fclose($list_file);
+  }
+
+  return get_url_list($file);
+}
 ?>
