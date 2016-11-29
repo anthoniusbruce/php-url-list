@@ -91,7 +91,7 @@ function find_url_in_list_isthirdinlist_returnstrue() {
 function find_url_hash_in_list_filedoesnotexist_returnempty() {
   // Arrange
   $expected = "http://www.google.com";
-  $in = hash($expected);
+  $in = hash("sha256", $expected);
   $file = get_test_file_name();
   remove_file($file);
 
@@ -106,7 +106,7 @@ function find_url_hash_in_list_isnotinlist_returnsempty() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
   $expected = "http://www.cnn.com";
-  $in = hash($expected);
+  $in = hash("sha256", $expected);
 
   // Action
   $result = find_url_hash_in_list($in, $file);
@@ -119,7 +119,7 @@ function find_url_hash_in_list_isfirstinlist_returnsurl() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
   $expected = "http://www.google.com/0";
-  $in = hash($expected);
+  $in = hash("sha256", $expected);
 
   // Action
   $result = find_url_hash_in_list($in, $file);
@@ -132,7 +132,7 @@ function find_url_hash_in_list_issecondinlist_returnsurl() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
   $expected = "http://www.google.com/1";
-  $in = hash($expected);
+  $in = hash("sha256", $expected);
 
   // Action
   $result = find_url_hash_in_list($in, $file);
@@ -145,7 +145,7 @@ function find_url_hash_in_list_isthirdinlist_returnsurl() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
   $expected = "http://www.google.com/2";
-  $in = hash($expected);
+  $in = hash("sha256", $expected);
 
   // Action
   $result = find_url_hash_in_list($in, $file);
@@ -234,7 +234,7 @@ function url_list_add_url_addurlthatisalreadyinlist_listshouldnotchange() {
 function url_list_delete_url_deleteurlnotinlist_liststaysthesame() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
-  $in = hash("http://www.google.com");
+  $in = hash("sha256", "http://www.google.com");
   $expected = array("http://www.google.com/0", "http://www.google.com/1", "http://www.google.com/2");
 
   // Action
@@ -247,7 +247,7 @@ function url_list_delete_url_deleteurlnotinlist_liststaysthesame() {
 function url_list_delete_url_deletefirsturlsnlist_listreduces() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
-  $in = hash("http://www.google.com/0");
+  $in = hash("sha256", "http://www.google.com/0");
   $expected = array("http://www.google.com/1", "http://www.google.com/2");
 
   // Action
@@ -260,7 +260,7 @@ function url_list_delete_url_deletefirsturlsnlist_listreduces() {
 function url_list_delete_url_deletelasturlinlist_listreduces() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
-  $in = hash("http://www.google.com/2");
+  $in = hash("sha256", "http://www.google.com/2");
   $expected = array("http://www.google.com/0", "http://www.google.com/1");
 
   // Action
@@ -273,7 +273,7 @@ function url_list_delete_url_deletelasturlinlist_listreduces() {
 function url_list_delete_url_deletemiddleurlinlist_listreduces() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
-  $in = hash("http://www.google.com/1");
+  $in = hash("sha256", "http://www.google.com/1");
   $expected = array("http://www.google.com/0", "http://www.google.com/2");
 
   // Action

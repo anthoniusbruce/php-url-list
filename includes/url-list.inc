@@ -25,7 +25,8 @@ function find_url_hash_in_list($url_hash, $file) {
 
   $list_file = fopen($file, "r") or die("unable to read: " . $file . " error: " . print_r(error_get_last(), true));
   while (($buffer = fgets($list_file)) !== false) {
-    if (strcmp(hash(trim($buffer)), $url_hash) == 0) {
+    $buffer = trim($buffer);
+    if (strcmp(hash("sha256", $buffer), $url_hash) == 0) {
       fclose($list_file);
       return $buffer;
     }
