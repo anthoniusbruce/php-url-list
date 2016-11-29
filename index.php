@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <tbody>
 <?php foreach ($file_list as $item): ?>
     <tr>
-      <td><?php echo $item; ?></td>
       <td><a href="pages/delete-from-url-list.php?hash=<?php echo hash("sha256",trim($item)); ?>">remove</a>
+      <td><?php echo $item; ?></td>
     </tr>
 <?php endforeach; ?>
   </tbody>
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php endif; ?>
 <br>
 <form method="post"  action="pages/url-list.php">
-URL: 
+Add URL: 
 <input type="text" name="url" value="<?php echo $url;?>">
 <span class="error"><?php echo $urlError;?></span>
 <br><br>
