@@ -52,7 +52,19 @@ function find_url_in_list_isnotinlist_returnsfalse() {
   assert_bool_is_false(__FUNCTION__, $result);  
 }
 
-function find_url_in_list_isinlist_returnstrue() {
+function find_url_in_list_isfirstinlist_returnstrue() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $in = "http://www.google.com/0";
+
+  // Action
+  $result = find_url_in_list($in, $file);
+
+  // Assert
+  assert_bool_is_true(__FUNCTION__, $result);  
+}
+
+function find_url_in_list_issecondinlist_returnstrue() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
   $in = "http://www.google.com/1";
@@ -62,6 +74,84 @@ function find_url_in_list_isinlist_returnstrue() {
 
   // Assert
   assert_bool_is_true(__FUNCTION__, $result);  
+}
+
+function find_url_in_list_isthirdinlist_returnstrue() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $in = "http://www.google.com/2";
+
+  // Action
+  $result = find_url_in_list($in, $file);
+
+  // Assert
+  assert_bool_is_true(__FUNCTION__, $result);  
+}
+
+function find_url_hash_in_list_filedoesnotexist_returnempty() {
+  // Arrange
+  $expected = "http://www.google.com";
+  $in = hash($expected);
+  $file = get_test_file_name();
+  remove_file($file);
+
+  // Action 
+  $result = find_url_hash_in_list($in, $file);
+
+  // Assert
+  assert_string_is_empty(__FUNCTION__, $result);  
+}
+
+function find_url_hash_in_list_isnotinlist_returnsempty() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $expected = "http://www.cnn.com";
+  $in = hash($expected);
+
+  // Action
+  $result = find_url_hash_in_list($in, $file);
+
+  // Assert
+  assert_string_is_empty(__FUNCTION__, $result);  
+}
+
+function find_url_hash_in_list_isfirstinlist_returnsurl() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $expected = "http://www.google.com/0";
+  $in = hash($expected);
+
+  // Action
+  $result = find_url_hash_in_list($in, $file);
+
+  // Assert
+  assert_strings_are_equal(__FUNCTION__, $expected, $result);  
+}
+
+function find_url_hash_in_list_issecondinlist_returnsurl() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $expected = "http://www.google.com/1";
+  $in = hash($expected);
+
+  // Action
+  $result = find_url_hash_in_list($in, $file);
+
+  // Assert
+  assert_strings_are_equal(__FUNCTION__, $expected, $result);  
+}
+
+function find_url_hash_in_list_isthirdinlist_returnsurl() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $expected = "http://www.google.com/2";
+  $in = hash($expected);
+
+  // Action
+  $result = find_url_hash_in_list($in, $file);
+
+  // Assert
+  assert_strings_are_equal(__FUNCTION__, $expected, $result);  
 }
 
 function get_url_list_noFile_returnsEmptyList() {
@@ -144,7 +234,7 @@ function url_list_add_url_addurlthatisalreadyinlist_listshouldnotchange() {
 function url_list_delete_url_deleteurlnotinlist_liststaysthesame() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
-  $in = "http://www.google.com";
+  $in = hash("http://www.google.com");
   $expected = array("http://www.google.com/0", "http://www.google.com/1", "http://www.google.com/2");
 
   // Action
@@ -157,7 +247,7 @@ function url_list_delete_url_deleteurlnotinlist_liststaysthesame() {
 function url_list_delete_url_deletefirsturlsnlist_listreduces() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
-  $in = "http://www.google.com/0";
+  $in = hash("http://www.google.com/0");
   $expected = array("http://www.google.com/1", "http://www.google.com/2");
 
   // Action
@@ -170,7 +260,7 @@ function url_list_delete_url_deletefirsturlsnlist_listreduces() {
 function url_list_delete_url_deletelasturlinlist_listreduces() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
-  $in = "http://www.google.com/2";
+  $in = hash("http://www.google.com/2");
   $expected = array("http://www.google.com/0", "http://www.google.com/1");
 
   // Action
@@ -183,7 +273,7 @@ function url_list_delete_url_deletelasturlinlist_listreduces() {
 function url_list_delete_url_deletemiddleurlinlist_listreduces() {
   // Arrange
   $file = create_test_file("http://www.google.com/", 3);
-  $in = "http://www.google.com/1";
+  $in = hash("http://www.google.com/1");
   $expected = array("http://www.google.com/0", "http://www.google.com/2");
 
   // Action
@@ -197,7 +287,15 @@ echo "<br><br><b>url-list.inc</b>";
 
 find_url_in_list_filedoesnotexist_returnfalse();
 find_url_in_list_isnotinlist_returnsfalse();
-find_url_in_list_isinlist_returnstrue();
+find_url_in_list_isfirstinlist_returnstrue();
+find_url_in_list_issecondinlist_returnstrue();
+find_url_in_list_isthirdinlist_returnstrue();
+echo "<br>";
+find_url_hash_in_list_filedoesnotexist_returnempty();
+find_url_hash_in_list_isnotinlist_returnsempty();
+find_url_hash_in_list_isfirstinlist_returnsurl();
+find_url_hash_in_list_issecondinlist_returnsurl();
+find_url_hash_in_list_isthirdinlist_returnsurl();
 echo "<br>";
 get_url_list_noFile_returnsEmptyList();
 get_url_list_returnsListOfOne();

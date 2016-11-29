@@ -17,6 +17,24 @@ function find_url_in_list($url, $file) {
   return false;
 }
 
+function find_url_hash_in_list($url_hash, $file) {
+  // if the file doesn't exist then the line will not be matched
+  if (!file_exists($file)) {
+    return null;
+  }
+
+  $list_file = fopen($file, "r") or die("unable to read: " . $file . " error: " . print_r(error_get_last(), true));
+  while (($buffer = fgets($list_file)) !== false) {
+    if (strcmp(hash(trim($buffer)), $url_hash) == 0) {
+      fclose($list_file);
+      return $buffer;
+    }
+  }
+
+  fclose($list_file);
+  return null;
+}
+
 function url_list_add_url($url, $file) {
   // only add if the url doesn't already exist
   if (!find_url_in_list($url, $file)) {
@@ -44,8 +62,9 @@ function get_url_list($file) {
   return $list;
 }
 
-function url_list_delete_url($url, $file) {
-  if (find_url_in_list($url, $file)) {
+function url_list_delete_url($url_hash, $file) {
+  $url = find_url_hash_in_list($url_hash, $file);
+  if (!empty($url)) {
     $list = array();
     $list_file = fopen($file, "r") or die("unable to read: " . $file . " error: " . print_r(error_get_last(), true));
     while (($buffer = fgets($list_file)) !== false) {
