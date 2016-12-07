@@ -12,7 +12,7 @@ function test_input_leading_and_trailing_whitespace_returns_no_whitespace() {
   $result = test_input($in);
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+  assert_are_equal(__FUNCTION__, $expected, $result);
 }
 
 function test_input_backslashes_returns_no_backslashes() {
@@ -24,7 +24,7 @@ function test_input_backslashes_returns_no_backslashes() {
   $result = test_input($in);
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+  assert_are_equal(__FUNCTION__, $expected, $result);
 }
 
 function test_input_specialcharacters_returns_escaped_string() {
@@ -36,7 +36,7 @@ function test_input_specialcharacters_returns_escaped_string() {
   $result = test_input($in);
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+  assert_are_equal(__FUNCTION__, $expected, $result);
 }
 
 function test_input_one_of_each_returns_all_removed() {
@@ -48,7 +48,7 @@ function test_input_one_of_each_returns_all_removed() {
   $result = test_input($in);
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+  assert_are_equal(__FUNCTION__, $expected, $result);
 }
 
 // tests for is_valid_url
@@ -140,7 +140,7 @@ function add_scheme_hashttp_returns_unchangedstring() {
   $result = add_scheme($in);
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+  assert_are_equal(__FUNCTION__, $expected, $result);
 }
 
 function add_scheme_hashttps_returns_unchangedstring() {
@@ -152,7 +152,7 @@ function add_scheme_hashttps_returns_unchangedstring() {
   $result = add_scheme($in);
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+  assert_are_equal(__FUNCTION__, $expected, $result);
 }
 
 function add_scheme_hasnoscheme_returns_defaultstohttp() {
@@ -164,7 +164,7 @@ function add_scheme_hasnoscheme_returns_defaultstohttp() {
   $result = add_scheme($in);
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+  assert_are_equal(__FUNCTION__, $expected, $result);
 }
 
 function add_scheme_hasnoscheme_returns_httpsuponrequest() {
@@ -176,7 +176,7 @@ function add_scheme_hasnoscheme_returns_httpsuponrequest() {
   $result = add_scheme($in, "https://");
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);
+  assert_are_equal(__FUNCTION__, $expected, $result);
 }
 
 echo "<b>input-format.inc</b>";

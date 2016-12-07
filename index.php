@@ -34,7 +34,11 @@ Add URL:
 <input type="text" name="url" value="<?php echo $url;?>">
 <span class="error"><?php echo $urlError;?></span>
 <br><br>
-<input type="submit" name="submit" value="Submit"> 
+<input type="submit" name="submit" value="Submit">
+<br>
+<br>
+<br>
+<a href="pages/set-url-list-modified.php">restart kiosk</a> 
 </form>
 <?php //echo shell_exec('killall chromium-browser'); ?> 
 </body>

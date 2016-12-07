@@ -125,7 +125,7 @@ function find_url_hash_in_list_isfirstinlist_returnsurl() {
   $result = find_url_hash_in_list($in, $file);
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);  
+  assert_are_equal(__FUNCTION__, $expected, $result);  
 }
 
 function find_url_hash_in_list_issecondinlist_returnsurl() {
@@ -138,7 +138,7 @@ function find_url_hash_in_list_issecondinlist_returnsurl() {
   $result = find_url_hash_in_list($in, $file);
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);  
+  assert_are_equal(__FUNCTION__, $expected, $result);  
 }
 
 function find_url_hash_in_list_isthirdinlist_returnsurl() {
@@ -151,7 +151,7 @@ function find_url_hash_in_list_isthirdinlist_returnsurl() {
   $result = find_url_hash_in_list($in, $file);
 
   // Assert
-  assert_strings_are_equal(__FUNCTION__, $expected, $result);  
+  assert_are_equal(__FUNCTION__, $expected, $result);  
 }
 
 function get_url_list_noFile_returnsEmptyList() {
@@ -283,6 +283,38 @@ function url_list_delete_url_deletemiddleurlinlist_listreduces() {
   assert_arrays_are_equal(__FUNCTION__, $expected, $result);
 }
 
+function url_list_set_modified_calledonfilethatdoesntexist_fileisnotcreated() {
+  // Arrange
+  $file = get_test_file_name(); 
+  remove_file($file);
+
+  // Action
+  $result = url_list_set_modified($file);
+
+  // Assert
+  assert_bool_is_true(__FUNCTION__ . " set_modified is successful", $result);
+  assert_bool_is_false(__FUNCTION__ . " file does not exist", file_exists($file));
+}
+
+function url_list_set_modified_calledonfilethatdoesexist_filetimeischanged() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $orig_time = filemtime($file);
+  sleep(1);
+  clearstatcache();
+  $second_time = filemtime($file);
+
+  // Action
+  $result = url_list_set_modified($file);
+  clearstatcache();
+  
+  // Assert
+  $mod_time = filemtime($file);
+  assert_bool_is_true(__FUNCTION__ . " set_modified is successful", $result);
+  assert_are_equal(__FUNCTION__ . " second check of modified time is still the same value", $orig_time, $second_time);
+  assert_are_equal(__FUNCTION__ . " file last modified has changed one second", $orig_time+1, $mod_time);
+}
+
 echo "<br><br><b>url-list.inc</b>";
 
 find_url_in_list_filedoesnotexist_returnfalse();
@@ -309,4 +341,7 @@ url_list_delete_url_deleteurlnotinlist_liststaysthesame();
 url_list_delete_url_deletefirsturlsnlist_listreduces();
 url_list_delete_url_deletelasturlinlist_listreduces();
 url_list_delete_url_deletemiddleurlinlist_listreduces();
+echo "<br>";
+url_list_set_modified_calledonfilethatdoesntexist_fileisnotcreated();
+url_list_set_modified_calledonfilethatdoesexist_filetimeischanged();
 ?>

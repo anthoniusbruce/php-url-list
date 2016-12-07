@@ -88,4 +88,15 @@ function url_list_delete_url($url_hash, $file) {
 
   return get_url_list($file);
 }
+
+function url_list_set_modified($file) {
+  if (!file_exists($file)) {
+    return true;
+  }
+
+  $list_file = fopen($file, "r") or die("unable to read: " . $file . " error: " . print_r(error_get_last(), true));
+  fclose($list_file);
+
+  return touch($file);
+}
 ?>
