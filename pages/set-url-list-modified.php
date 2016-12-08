@@ -8,10 +8,10 @@ url_list_set_modified($file);
 <html>
 <body>
 <form id="goBack" action="../index.php">
-  <input type="submit" name="submit" value="submit" >
+<!--  <input type="submit" name="submit" value="submit" > -->
 </form>
 <script type="text/javascript">
-<!--  document.getElementById('goBack').submit();-->
+  document.getElementById('goBack').submit();
 </script>
 </body>
 </html>
