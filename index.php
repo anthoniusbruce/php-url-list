@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php foreach ($file_list as $item): ?>
     <tr>
       <td><a href="pages/delete-from-url-list.php?hash=<?php echo hash("sha256",trim($item)); ?>">remove</a>
-      <td><?php echo $item; ?></td>
+      <td><?php echo htmlspecialchars($item); ?></td>
     </tr>
 <?php endforeach; ?>
   </tbody>

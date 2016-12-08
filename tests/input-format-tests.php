@@ -3,6 +3,18 @@ require_once 'asserts.php';
 require '../includes/input-format.inc';
 
 // tests for test_input method
+function test_input_ampersandinstring_returns_ampersandnotentityreplacement() {
+  // Arrange
+  $expected = "http://www.expected.com?a=1&b=2";
+  $in = $expected;
+
+  // Action
+  $result = test_input($in);
+
+  // Assert
+  assert_are_equal(__FUNCTION__, $expected, $result);
+}
+
 function test_input_leading_and_trailing_whitespace_returns_no_whitespace() {
   // Arrange
   $expected = "http://www.expected.com";
@@ -21,30 +33,6 @@ function test_input_backslashes_returns_no_backslashes() {
   $in = "http://back\\slash.com";
 
   // Action
-  $result = test_input($in);
-
-  // Assert
-  assert_are_equal(__FUNCTION__, $expected, $result);
-}
-
-function test_input_specialcharacters_returns_escaped_string() {
-  // Arrange
-  $expected = "http://hello&amp;there.com";
-  $in = "http://hello&there.com";
-
-  // Action
-  $result = test_input($in);
-
-  // Assert
-  assert_are_equal(__FUNCTION__, $expected, $result);
-}
-
-function test_input_one_of_each_returns_all_removed() {
-  // Arrange
-  $expected = "http://&lt;Hello World&gt;";
-  $in = " http://<Hello \\World>\n";
-
-  // Action 
   $result = test_input($in);
 
   // Assert
@@ -180,10 +168,9 @@ function add_scheme_hasnoscheme_returns_httpsuponrequest() {
 }
 
 echo "<b>input-format.inc</b>";
+test_input_ampersandinstring_returns_ampersandnotentityreplacement();
 test_input_leading_and_trailing_whitespace_returns_no_whitespace();
 test_input_backslashes_returns_no_backslashes();
-test_input_specialcharacters_returns_escaped_string();
-test_input_one_of_each_returns_all_removed();
 
 echo "<br \>";
 

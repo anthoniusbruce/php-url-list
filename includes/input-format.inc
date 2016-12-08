@@ -19,7 +19,6 @@ function test_input($data) {
   $data = trim($data);
   $data = stripslashes($data);
   $data = add_scheme($data);
-  $data = htmlspecialchars($data);
   return $data;
 }
 
