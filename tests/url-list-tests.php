@@ -16,8 +16,11 @@ function remove_file($file) {
   }
 }
 
-function create_test_file($base_data, $count) {
+function create_test_file($base_data, $count, $useAltName) {
   $file = get_test_file_name();
+  if ($useAltName) {
+    $file = $file . "alt";
+  }
   remove_file($file);
 
   for ($i = 0; $i < $count; $i++) {
@@ -315,6 +318,59 @@ function url_list_set_modified_calledonfilethatdoesexist_filetimeischanged() {
   assert_are_equal(__FUNCTION__ . " file last modified has changed one second", $orig_time+1, $mod_time);
 }
 
+function url_list_move_down_url_movefirstdown_secondisfirstandfirstissecond() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $in = hash("sha256", "http://www.google.com/0");
+  $expected = array("http://www.google.com/1", "http://www.google.com/0", "http://www.google.com/2");
+
+  // Act
+  $result = url_list_move_down_url($in, $file);
+
+  // Assert
+  assert_arrays_are_equal(__FUNCTION__, $expected, $result);
+}
+
+function url_list_move_down_url_movelastdown_nochange() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $in = hash("sha256", "http://www.google.com/2");
+  $expected = array("http://www.google.com/0", "http://www.google.com/1", "http://www.google.com/2");
+
+  // Act
+  $result = url_list_move_down_url($in, $file);
+
+  // Assert
+  assert_arrays_are_equal(__FUNCTION__, $expected, $result);
+}
+
+function url_list_move_down_url_moveseconddown_secondislastandlastissecond() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 3);
+  $in = hash("sha256", "http://www.google.com/1");
+  $expected = array("http://www.google.com/0", "http://www.google.com/2", "http://www.google.com/1");
+
+  // Act 
+  $result = url_list_move_down_url($in, $file);
+
+  // Assert
+  assert_arrays_are_equal(__FUNCTION__, $expected, $result);
+}
+
+function url_list_move_down_url_oneiteminlist_movedowndoesnothing() {
+  // Arrange
+  $file = create_test_file("http://www.google.com/", 1);
+  $in = hash("sha256", "http://www.google.com/0");
+  $expected = array("http://www.google.com/0");
+
+  // Act 
+  $result = url_list_move_down_url($in, $file);
+
+  // Assert
+  assert_arrays_are_equal(__FUNCTION__, $expected, $result);
+}
+
+echo "<br>";
 echo "<br><br><b>url-list.inc</b>";
 
 find_url_in_list_filedoesnotexist_returnfalse();
@@ -344,4 +400,9 @@ url_list_delete_url_deletemiddleurlinlist_listreduces();
 echo "<br>";
 url_list_set_modified_calledonfilethatdoesntexist_fileisnotcreated();
 url_list_set_modified_calledonfilethatdoesexist_filetimeischanged();
+echo "<br>";
+url_list_move_down_url_movefirstdown_secondisfirstandfirstissecond();
+url_list_move_down_url_movelastdown_nochange();
+url_list_move_down_url_moveseconddown_secondislastandlastissecond();
+url_list_move_down_url_oneiteminlist_movedowndoesnothing();
 ?>
