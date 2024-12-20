@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (!empty($_POST["url"])) {
     $url = test_input($_POST["url"]);
     if (!is_valid_url($url)) {
-      $urlError = "Invalid URL"; 
+      $urlError = "Invalid URL";
     } else {
       url_list_add_url($url, $file);
       $url = "";
@@ -19,14 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <html>
+
 <body>
-<form id="goBack" action="../index.php" <?php if ($urlError != "") echo("method = 'post'"); ?> >
-  <input type="hidden" name="urlError" <?php echo("value='" . $urlError . "'"); ?> >
-  <input type="hidden" name="url" <?php echo("value='" . $url . "'"); ?> >
-<!--  <input type="submit" name="submit" value="submit" >i -->
-</form>
-<script type="text/javascript">
-  document.getElementById('goBack').submit();
-</script>
+  <form id="goBack" action="../index.php" <?php if ($urlError != "") echo ("method = 'post'"); ?>>
+    <input type="hidden" name="urlError" <?php echo ("value='" . $urlError . "'"); ?>>
+    <input type="hidden" name="url" <?php echo ("value='" . htmlspecialchars($url) . "'"); ?>>
+    <!--  <input type="submit" name="submit" value="submit" >i -->
+  </form>
+  <script type="text/javascript">
+    document.getElementById('goBack').submit();
+  </script>
 </body>
+
 </html>
